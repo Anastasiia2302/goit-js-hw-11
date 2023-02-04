@@ -24,11 +24,11 @@ async function onSubmit (e) {
     };
 
     const markup = hits.reduce(
-      (markup, hits) => createMarkup(hits) = markup, " " );
+      (markup, hits) => createMarkup(hits) + markup, "" 
+      );
     
 
       updateImagesList(markup);
-
     } catch (err) {
       onError(err);
     } finally {
