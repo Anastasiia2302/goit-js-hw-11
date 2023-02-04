@@ -24,7 +24,7 @@ async function onSubmit (e) {
     };
 
     const markup = hits.reduce(
-      (markup, hits) => createMarkup(hits) + markup, "" 
+      (markup, hit) => createMarkup(hit) + markup, "" 
       );
     
 
@@ -76,7 +76,7 @@ function  createMarkup({webformatURL, largeImageURL, tags, likes, views, comment
 
 function updateImagesList(markup) {
 
-  document.getElementById("gallery").innerHTML = markup;
+  document.querySelector(".gallery").insertAdjacentHTML("beforeend", markup)
 }
 
 function onError(){
