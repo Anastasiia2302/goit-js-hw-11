@@ -42,7 +42,7 @@ function  createMarkup({webformatURL, largeImageURL, tags, likes, views, comment
 
 <div class="photo-card">
 <a class="thumb" href ="${largeImageURL}">
-  <img src="${webformatURL}" alt="${tags}" loading="lazy"  />
+  <img src="${webformatURL}" alt="${tags}" loading="lazy" width="200" />
   </a>
   <div class="info">
     <p class="info-item">
