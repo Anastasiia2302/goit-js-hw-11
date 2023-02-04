@@ -1,19 +1,14 @@
 import axios from "axios";
 
+const URL = "https://pixabay.com/api/";
+const KEY = "33338656-15c8519595d06b8db6a463933";
+let page = 1;
 
 
-const URL = "https://pixabay.com/api/?key=33338656-15c8519595d06b8db6a463933&q=flower&image_type=photo&orientation=horizontal&safesearch=true&per_page=40";
-
-
-// page = 1;
-
-
-export default function axiosImage () {
+async function getImage (query) {
+  const response = await axios.get(`${URL}?key=${KEY}&q=${query}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40&${page}`)
+ return response.data.hits
+}
     
-  return  axios.get(URL).then((res) => {
-    console.log(res);
-    
-    return res;
-});
-    };
-    
+
+export default {getImage};
