@@ -6,6 +6,7 @@ import "simplelightbox/dist/simple-lightbox.min.css";
 
 let page = 1;
 let inputValue = "";
+let totalHits = 0;
 const lightbox  = new SimpleLightbox('.gallery a', {
   captionsData: 'alt',
   captionDelay: 250,
@@ -24,21 +25,23 @@ formEl.addEventListener("submit", onSubmit);
 async function onSubmit (e) {
     e.preventDefault();
     page = 1;
+    clearImagesList();
 
     const form = e.currentTarget;
     inputValue = form.elements.searchQuery.value.trim();
+
   if(!inputValue) {
     return;
   }
-   
+  
     loadMoreBtn.show();
     
     try {
-      const hits = await api.getImage(inputValue, page);
+      const hits = await api.getImage(inputValue, page, totalHits);
 
       if (hits.length === 0 )  { Notiflix.Notify.info("Sorry, there are no images matching your search query. Please try again.");
     };
-
+    
     const markup = hits.reduce(
       (markup, hit) => createMarkup(hit) + markup, "" 
       );
@@ -46,7 +49,7 @@ async function onSubmit (e) {
 
       updateImagesList(markup);
       loadMoreBtn.enable();
-     
+      
     } catch (err) {
       onError(err);
     } finally {
@@ -102,7 +105,7 @@ function updateGallery() {
 }
 
 function clearImagesList() {
-  document.querySelector(".gallery").insertAdjacentHTML = "";
+  document.querySelector(".gallery").innerHTML = "";
 }
 function onError() {
   
