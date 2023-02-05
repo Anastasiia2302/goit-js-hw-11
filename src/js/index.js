@@ -4,8 +4,8 @@ import Notiflix from 'notiflix';
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 
-
-
+let page = 1;
+let inputValue = "";
 const lightbox  = new SimpleLightbox('.gallery a', {
   captionsData: 'alt',
   captionDelay: 250,
@@ -16,23 +16,25 @@ const loadMoreBtn = new LoadMoreBtn({
   selector: "#loadMoreBtn",
   isHidden: true,
 });
-loadMoreBtn.button.addEventListener("click", fetchImage);
+loadMoreBtn.button.addEventListener("click", onLoadMoreBtnClick);
 
 const formEl = document.getElementById("search-form");
 formEl.addEventListener("submit", onSubmit);
 
 async function onSubmit (e) {
     e.preventDefault();
-    
+    page = 1;
 
     const form = e.currentTarget;
-    const inputValue = form.elements.searchQuery.value.trim();
-  
-    api.resetPage();
+    inputValue = form.elements.searchQuery.value.trim();
+  if(!inputValue) {
+    return;
+  }
+   
     loadMoreBtn.show();
     
     try {
-      const hits = await api.getImage(inputValue);
+      const hits = await api.getImage(inputValue, page);
 
       if (hits.length === 0 )  { Notiflix.Notify.info("Sorry, there are no images matching your search query. Please try again.");
     };
@@ -105,8 +107,13 @@ function clearImagesList() {
 function onError() {
   
 }
-function fetchImage () {
-  updateImagesList();
-  api.incrementPage();
+async function onLoadMoreBtnClick () {
+ page += 1;
+ const hits = await api.getImage(inputValue, page);
+ const markup = hits.reduce(
+  (markup, hit) => createMarkup(hit) + markup, "" 
+  );
 
+
+  updateImagesList(markup);
 }
