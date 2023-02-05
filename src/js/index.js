@@ -1,22 +1,36 @@
 import api from "./api.js";
+import LoadMoreBtn from "./loadMoreBtn.js";
 import Notiflix from 'notiflix';
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 
 
 
+const lightbox  = new SimpleLightbox('.gallery a', {
+  captionsData: 'alt',
+  captionDelay: 250,
+});
+
+
+const loadMoreBtn = new LoadMoreBtn({
+  selector: "#loadMoreBtn",
+  isHidden: true,
+});
+loadMoreBtn.button.addEventListener("click", fetchImage);
 
 const formEl = document.getElementById("search-form");
-
 formEl.addEventListener("submit", onSubmit);
 
 async function onSubmit (e) {
     e.preventDefault();
-
+    
 
     const form = e.currentTarget;
-    const inputValue = form.elements.searchQuery.value;
-
+    const inputValue = form.elements.searchQuery.value.trim();
+  
+    api.resetPage();
+    loadMoreBtn.show();
+    
     try {
       const hits = await api.getImage(inputValue);
 
@@ -29,6 +43,7 @@ async function onSubmit (e) {
     
 
       updateImagesList(markup);
+      loadMoreBtn.enable();
     } catch (err) {
       onError(err);
     } finally {
@@ -42,7 +57,7 @@ function  createMarkup({webformatURL, largeImageURL, tags, likes, views, comment
 
 <div class="photo-card">
 <a class="thumb" href ="${largeImageURL}">
-  <img src="${webformatURL}" alt="${tags}" loading="lazy" width="200" />
+  <img src="${webformatURL}" alt="${tags}" loading="lazy" width="420" height="320"/>
   </a>
   <div class="info">
     <p class="info-item">
@@ -76,9 +91,19 @@ function  createMarkup({webformatURL, largeImageURL, tags, likes, views, comment
 
 function updateImagesList(markup) {
 
-  document.querySelector(".gallery").insertAdjacentHTML("beforeend", markup)
+document.querySelector(".gallery").insertAdjacentHTML("beforeend", markup);
+ updateGallery();
+}
+function updateGallery() {
+  lightbox.refresh();
 }
 
-function onError(){
- 
+function clearImagesList() {
+  document.querySelector(".gallery").insertAdjacentHTML = "";
+}
+function onError() {
+  
+}
+function fetchImage () {
+
 }

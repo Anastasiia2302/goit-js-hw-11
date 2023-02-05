@@ -7,8 +7,14 @@ let page = 1;
 
 async function getImage (query) {
   const response = await axios.get(`${URL}?key=${KEY}&q=${query}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40&${page}`)
- return response.data.hits
+  incrementPage()
+ return response.data.hits;
 }
     
-
-export default {getImage};
+function incrementPage(){
+  page += 1;
+}
+function resetPage() {
+  page = 1;
+}
+export default {getImage, incrementPage, resetPage };
