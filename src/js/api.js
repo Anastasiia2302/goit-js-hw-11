@@ -6,13 +6,13 @@ let page = 1;
 
 
 async function getImage (query) {
-  const response = await axios.get(`${URL}?key=${KEY}&q=${query}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40&${page}`)
-  incrementPage()
+  const response = await axios.get(`${URL}?key=${KEY}&q=${query}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40&page=${page}`)
+
  return response.data.hits;
 }
     
-function incrementPage(){
-  page += 1;
+function incrementPage() {
+ page += 1;
 }
 function resetPage() {
   page = 1;

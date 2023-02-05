@@ -44,6 +44,7 @@ async function onSubmit (e) {
 
       updateImagesList(markup);
       loadMoreBtn.enable();
+     
     } catch (err) {
       onError(err);
     } finally {
@@ -105,5 +106,7 @@ function onError() {
   
 }
 function fetchImage () {
+  updateImagesList();
+  api.incrementPage();
 
 }
