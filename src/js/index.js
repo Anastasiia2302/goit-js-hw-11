@@ -6,7 +6,7 @@ import "simplelightbox/dist/simple-lightbox.min.css";
 
 let page = 1;
 let inputValue = "";
-let totalHits = 0;
+
 const lightbox  = new SimpleLightbox('.gallery a', {
   captionsData: 'alt',
   captionDelay: 250,
@@ -37,7 +37,7 @@ async function onSubmit (e) {
     loadMoreBtn.show();
     
     try {
-      const hits = await api.getImage(inputValue, page, totalHits);
+      const hits = await api.getImage(inputValue, page);
 
       if (hits.length === 0 )  { Notiflix.Notify.info("Sorry, there are no images matching your search query. Please try again.");
     };
@@ -113,6 +113,8 @@ function onError() {
 async function onLoadMoreBtnClick () {
  page += 1;
  const hits = await api.getImage(inputValue, page);
+
+
  const markup = hits.reduce(
   (markup, hit) => createMarkup(hit) + markup, "" 
   );
