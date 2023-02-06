@@ -53,6 +53,7 @@ height: 30px;
     font-size: 30px;
 
 }
+.hidden {display: none;}
 .gallery {
     margin-top: 10px;
     display: flex;
