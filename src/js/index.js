@@ -45,6 +45,12 @@ async function onSubmit (e) {
     const markup = hits.reduce(
       (markup, hit) => createMarkup(hit) + markup, "" 
       );
+     let totalHits = hits.totalHits;
+      if (totalHits <= hits.length) 
+        { Notiflix. Notify.info("We're sorry, but you've reached the end of search results.");
+        showMoreBtnEl.hide();
+    };
+      
     
 
       updateImagesList(markup);

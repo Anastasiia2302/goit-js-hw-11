@@ -42,6 +42,8 @@ height: 30px;
 }
 
 .load-more {
+   border-radius: 5px;
+   background-color: #F0D5F3;
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -63,3 +65,4 @@ height: 30px;
 .info {
     font-size: 26px;
 }
+
